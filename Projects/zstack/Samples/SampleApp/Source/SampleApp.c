@@ -22,7 +22,7 @@
   its documentation for any purpose.
 
   YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
-  PROVIDED “AS IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+  PROVIDED ï¿½AS IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
   INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
   NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
   TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
@@ -72,6 +72,7 @@
 #include "hal_led.h"
 #include "hal_key.h"
 #include "MT_UART.h"
+#include "hal_uart.h"
 
 /*********************************************************************
  * MACROS
@@ -173,10 +174,17 @@ void SampleApp_SendFlashMessage( uint16 flashTime );
  */
 void SampleApp_Init( uint8 task_id )
 {
+  uint8 txBuf[] = "OK\r\n";
+  
   SampleApp_TaskID = task_id;
   SampleApp_NwkState = DEV_INIT;
   SampleApp_TransID = 0;
   
+  MT_UartInit(); // Init MT Serial Port
+  MT_UartRegisterTaskID( SampleApp_TaskID ); // Register task for MT Serial Port
+
+  HalUARTWrite(HAL_UART_PORT_0, txBuf, sizeof(txBuf)-1); // Send OK
+
   // Configure Serial Port
   MT_UartInit();
   MT_UartRegisterTaskID(task_id);
