@@ -1,0 +1,26 @@
+{
+  "workspace": {
+    "path": "${workspaceFolder}\\Projects\\zstack\\Samples\\SampleApp\\CC2530DB\\SampleApp.eww"
+  },
+  "workspaces": {
+    "${workspaceFolder}\\Projects\\zstack\\Utilities\\BootLoad\\CC2530ZNP\\Boot.eww": {
+      "configs": {
+        "${workspaceFolder}\\Projects\\zstack\\Utilities\\BootLoad\\CC2530ZNP\\Boot.ewp": "CC2530ZNP Boot Loader"
+      },
+      "selected": {
+        "path": "${workspaceFolder}\\Projects\\zstack\\Utilities\\BootLoad\\CC2530ZNP\\Boot.ewp"
+      }
+    },
+    "${workspaceFolder}\\Projects\\zstack\\Samples\\SampleApp\\CC2530DB\\SampleApp.eww": {
+      "configs": {
+        "${workspaceFolder}\\Projects\\zstack\\Samples\\SampleApp\\CC2530DB\\SampleApp.ewp": "CoordinatorEB"
+      },
+      "selected": {
+        "path": "${workspaceFolder}\\Projects\\zstack\\Samples\\SampleApp\\CC2530DB\\SampleApp.ewp"
+      }
+    }
+  },
+  "workbench": {
+    "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 6.0 Evaluation"
+  }
+}
