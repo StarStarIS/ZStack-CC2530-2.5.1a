@@ -262,6 +262,7 @@ void SampleApp_Init( uint8 task_id )
 uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
 {
   afIncomingMSGPacket_t *MSGpkt;
+  mtOSALSerialData_t *UartMsg;
   (void)task_id;  // Intentionally unreferenced parameter
 
   if ( events & SYS_EVENT_MSG )
@@ -299,6 +300,12 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
           }
           break;
 
+        // Process the incoming data from MT Serial Port
+        case SPI_INCOMING_ZTOOL_PORT:
+          UartMsg = (mtOSALSerialData_t *)MSGpkt;
+          HalUARTWrite(0, &UartMsg->msg[1], UartMsg->msg[0]);
+          break;
+        
         default:
           break;
       }
