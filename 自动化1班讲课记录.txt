@@ -1,0 +1,431 @@
+1、实训的内容介绍
+2、实训的要求
+3、实训考评要求
+4、物联网、STM32的开发环境
+
+1、实训的内容介绍
+int i; 占用4个字节，
+0-100 char 
+char i;
+bit 
+int
+1、物联网采集数据：基于TI的CC2530,采用TI的Z-STACK协议栈来进行数据传输
+1：IAR集成开发环境、Z-STACK协议栈，USB转串口的驱动，CC2530的下载器（仿真器）
+ZStack-CC2530-2.5.1a：ZSTACK协议栈
+开发环境IAR EW8051-8.1带注册工具：IAR开发环境
+CH340Gusbtottl：USB转串口的驱动
+上面三个软件都可以直接安装
+CH340Gusbtottl：CC2530的下载器（仿真器）：必须带上硬件设备进行安装
+
+2、网关把数据送到云端:基于ST公司的STM32系列单片机展开应用
+开发环境：KEIL MDK
+STM32F10x_StdPeriph_Lib_V3.5.0:是ST公司提供的标准库版本函数
+6.1、STM32开发环境搭建（MDK）：开发环境的安装
+6.1、STM32开发环境搭建（MDK）：MDK安装程序
+keygen：MDK的破解
+
+2、实训的要求
+是以项目小组的形式开展的。每4-5人组成一个项目组，选出相应的项目经理，组员在项目经理的领导和安排下按相应的项目要求开展工作，
+
+
+实习日志
+学生每天在系统上填写实习日志，每周把自己实习日志从系统上拷贝出来，做成WORD文档，提交给项目组长，由项目组长打包发送给指导老师。
+参加实习人数95人，然后签到的人数好像是50人左右，入会的人数59人 9点-11:50  14:00-16:50
+公司的成绩：由三部分组成：
+项目组的成绩：30%，是决定每个同学成绩上限。如果项目组成绩为75分，所有的项目成员的成绩都不会超过75分。是项目组的成绩过低造成的优秀，及格的
+个人成绩：50%，项目技能的提升，参与学习的态度
+职业素养：20%，考勤，学习的态度
+是以公司成绩为主，把公司成绩分散学校成绩每一部分
+MCS-51系列单片机
+ROM:512K
+RAM:一般只有256个字节，最大的能达到1K
+32位的单片机
+STM32系列的单片机
+ROM:512K
+RAM:几十K
+ROM:存贮程序
+RAM:存贮数据，掉电不保存数据的
+FLASHROM:可以存贮程序或数据，掉电保存数据
+嵌入式设备编程：寄存器编程，库函数编程
+STM32库函数编程：标准库，HAL库（通常结合ST开环环境STM32CubeIDE，图形化编程）
+
+STM32硬件仿真器：ST-LINK,这次给大家使用的仿真器：DAP仿真器
+CC2530硬件仿真器：SMARTRF40
+
+编译器 + IDE + 仿真器
+
+编译器:C语言的编译器
+IDE:编写程序的环境 如写文章可以用 WORD 、WPS这些一样
+仿真器：不同的芯片有不同的仿真器
+ARM GCC：LINUX环境下的编译工具
+21
+各组组长注意：
+实习周报提交步骤
+1：每个同学把自己的实习周报上传到学校系统
+2：每个同学把自己的实习周报从系统上拷贝到本地
+3：每个同学实习周报命名格式：学号+姓名+第X周实习周报
+比如以王宇航同学为例：222023321132005王宇航第1周实习周报
+4：每组同学把实习周报发送到组长处
+5：组长把实习周报收齐后，统一打包为一个压缩文件夹：文件夹命名格式为：第X组第X周实习周报
+比如以第1组为例：第1组第1周实习周报
+6：由组长上传到群文件的实习周报文件夹，，记着文件转存为永久文件
+7：每周实习周报提交时间为下个星期一前，提交学校的以学校规定时间为准
+A=B; 这是把B的值赋给A,A的值会发生变化
+if(A==B)
+{
+;
+}
+判断A是否等于B,在这个过程中，A和B的值都不会发生改变。
+if(A=B)
+{
+;
+}
+LED=!LED;
+嵌入式系统是专用的计算机系统，他受限于速度、内存、程序空间、外设等。因此嵌入式C编程时，一定要考虑变量的范围（数据类型）比如一个计数变量，计数范围为0-100，你可以用char  int  long  还可以用unsigned char  int  long
+
+unsigned char Count;
+在很多编译器中，都有相关的包含文件定义变量类型的写法
+在MDK用u8来替代unsigned char;
+unsigned i;和u8 i;是一样的
+
+结构体变量现在编程更多的是采用隐形结构体的方法定义结构体
+
+typedef struct
+{
+} 结构体名字
+语义化：见名知意
+u8 i;
+u8 Count;
+变量的定义规则：
+1：能用局部变量的绝不用全局变量
+2：局部变量一般用小写的i,j ,k,l,m,n等表示
+3：全局变量必须要有一定的含义，要做到见名知意
+4：全局变量命名可以是第一个字母大写后面小写，也可以是第一个字母小写，后面大写，不能全部大写或小写。
+count,COUNT Count cOUNT;
+5:一般采用无符号的变量，尽量不用有符号的变量
+6：全局变量和局部变量不能同名
+现在嵌入式编程、一般不采用寄存器操作，相关的公司（芯片公司ST、编译器公司KEIL、IAR）都提供了相关库函数，我们可以根据库函数轻松、方便编程
+国外的设计都偏爱结构体，而且都偏爱隐形结构体
+C语言常用的控制语句：
+for循环语句
+for(i=0;i<10;i++);
+for语句中计数变量一般为局部变量。
+if/elseif /else
+if(!led==0)
+{
+;
+}
+else if(led==1)
+{
+;
+}
+else
+{
+;
+}
+switch/case
+switch(temp)
+{
+  case 1:fun();break;
+  case 2:fun1();break;
+ default:fun1();break;
+}
+while语句：
+在嵌入式程序设计中，一般采用while语句做一个死循环，程序所有的功能都在这里实现
+main.c
+void main(void)
+{
+   LED_Init();
+   Timer1_Init();
+   while(1)
+ {
+     程序需要完成的功能。
+}
+
+
+
+}
+如果没有while(1)程序会跑飞
+#include<库文件名> :库文件放在编译器目录
+#include“”库文件名“ :库文件放在工作目录
+RAM:随机存贮器
+SRAM:静态随机存贮器：以字节形式操作
+FLASHROM:动态存贮器：以页进行操作，一页的大小从64byte---128Kbybe
+无线传感网络：WSN
+MESH
+USART:异步串行口  RXD TXD GND
+UART:同步串行口：RXD TXD CLK GND
+#include <iocc2530.h>:表示头文件放在编译器目录
+#include "iocc2530.h"：表示头文件放在工作目录
+I2C
+CLKCONCMD:命令寄存器：只能写，不能读
+CLKCONSTA: 状态寄存器：只能读，不能写
+
+32K晶体：32.768Khz 称为钟表晶体，用于产生时基信号
+在嵌入式设计里面，一般都把相应的位当成1来操作
+0X40  0100,0000
+! ~
+CLKCONCMD &= ~0x40;
+CLKCONCMD:XXXX,XXXX
+0X40  0100,0000
+~0X40  1011,1111
+XXXX,XXXX &1011,1111
+P1DIR:P1输出和输入寄存器。要P1.0 ,P1.3,P1.7置为输出方式，其他脚为输入
+1P1DIR    
+D7 D6 D5 D4 D3 D2 D1 D0
+ 1    0   0   0    1    0    0    1
+P1DIR=0X89; 
+2: 
+  P1DIR |=0X89;
+PxSEL:端口功能选择寄存器
+PxDIR:端口输入输出寄存器
+PxINP:端口输入方式寄存器
+CC2530的端口，有很多是复用端口，既可以作GPIO,也可以作其他端口（USART,ADC）,GPIO作为IO口使用时必须明确到底是I口，还是O口
+三态
+嵌入式编程：系统里面有很多外设，LED 和蜂鸣器，要求对每一个外设编制程序（LED.C,BUZZER.C）,每一个外设都要求有一个包含文件
+ 
+包含文件写法：
+#ifndef __XXXX__
+#define __XXXX__
+1:定义相关的端口
+2：声明相关C模块里面的函数
+#endif
+头文件保存必须是XXXX.H不能是其他的名称
+在其他文件中包含此头文件，其他程序即可使用相应的函数
+extern
+裸机版的嵌入式主程序必须有一个while(1)
+断点调试
+step over
+step into
+单步运行 step over跳过整端程序，step into进入程序内部运行每一条程序
+
+中断入口地址（中断向量）：每一个中断硬件都规定入口地址 P1口：0X7B
+
+单片机有很多中断。每一个中断必须使能，才能产生中断，然后还有一个总的中断使能，
+一个使能必须满足两个条件,任何条件缺一不可
+1：本身的中断使能 URX0IE=1;
+2:   总的中断使能：EA=1;
+总的中断开启一般放在初始化的末尾，
+寄存器地址能够被8除尽，可以位操作，
+EA=1;
+IEN0 |=0X80;
+中断标志位是硬件置位，清除中断标志位有的可以硬件清零，有的可以软件清零，如果你不知道是硬件还是软件清零，建议每一个中断标志位都用软件清零
+使用中断标志位，后必须清零
+URX1IF=0;
+一个8位的AD C参考电压为3.3V 输入电压为4V，现在输出数字量是多少
+0-255
+输入电压/参考电压=X/255
+(4/3.3)*255 
+AD在输入电压在参考电压范围内成线性关系
+12AD
+ADCH,ADCL
+                  ADCH                                        ADCL
+DH7 DH6 DH5 DH4 DH3 DH2 DH1 DH0      DL7 DL6 DL5 DL4  DL3 DL2 DL1 DL0
+                                                                                   数据无效
+实际数据
+D15 D14  D13 D12 D11 D10 D9 D8   D7 D6 D5 D4 D3 D2 D1 D0
+                                                                            DH0     DL7     DL6       DL5       DL4 
+串行通讯
+并行通信：数据以字节的形式传输，有多少数据位就需要多少根数据线，通信距离一般比较短，0.5-1.5M,速度比较快
+串行通信：数据以位的形式传输，只有一根数据线,距离比较远，一般是1000M，速度比较慢
+串行通讯：MOTO,
+特点1：通信比较短 在码元崎变小于4%，50英尺（15M）在码元崎变小于20%可以达到1000M
+特点2：串行通信是共模通信（发送端和接收端有地线相连），抗干扰能力比较差
+特点3：串行通信只能进行点对点的通信，
+特点4：串行数据是以数据帧的格式进行发送和接收的
+        起始位    数据位   校验位  停止位
+    起始位：1位
+数据位：8位
+校验位：1位
+停止位：1位，1.5位，2位
+我们一般采用10位数据帧格式
+       起始位    数据位    停止位
+特点5：波特率：是每秒发送的数据位数（9600）
+采用9600B/S 每秒发送多少字节数据
+
+  9600/8=1200 9600/10=960
+特点6：串行通讯分为有流控制的和无流控制的
+无流控制串行通信：RXD、TXD 、GND
+有流控制的串行通信：RXD TXD GND，DTR DSR RTS CTS
+特点7：串口分为RS232串口，TTL的串口
+TTL串口采用5V电平系统
+H:>1.25V
+L:=0V
+电压在0-1.25V称为TTL电平的盲区
+RS232电平系统采用正负15V电压
+RS232H:-5V~-15V
+RS232L:+5V~+15V
+-5V~++5V范围为RS232盲区
+电平转换器件：MAX232ACPE
+特点8：两个设备进行串行通信
+DHT11
+DATA线他在输入和输出状态之间变化
+if(checksum==(temph+templ+huidh+huidl))
+{
+   
+}
+data=1;
+delay(20)
+延时1个US
+void Onboard_wait( uint16 timeout )
+{
+  while (timeout--)
+  {
+    asm("NOP");
+    asm("NOP");
+    asm("NOP");
+  }
+}
+void Delayus( uint16 timeout )
+{
+  while (timeout--)
+  {
+    asm("NOP");
+    asm("NOP");
+    asm("NOP");
+  }
+}
+Delayus(20000)
+1:采集温湿度
+2：设定温湿度报警的阈值，高于设定的阈值，蜂鸣器进行滴-滴的报警，然后LED1快速闪烁（声，光报警）
+3：利用光敏电阻采集环境光亮度，控制LED2的发光亮度（可以用延时产生PWM）
+4: 把采集的温湿度、亮度数据通过串口调试助手，送到计算机进行显示
+5：通过计算机设置温湿度报警阈值
+
+
+
+物联网系统的数据流程
+1：计算机或手机APP向协调器发送数据
+2：协调器在协议栈的MT层接收数据
+3：MT层把接收的数据打包，向APP层发送
+操作系统是以事件或任务来调度
+4：APP层接收到MT层发送数据的事件，然后处理数据（接收，打包）
+5：协调器在APP层以广播、点播、组播的方式把数据发送到路由器、终端
+6：路由器或终端接收到协调器发送的命令，执行相应的操作
+7：路由器或终端以点播的方式把数据发送协调器
+8：协调器把接收到数据送到计算机（处理）、或通过WiFi、NB-IOT、LTE送到云端（服务器端）
+协议栈结构
+明确ZSTACK协议栈是半开源的系统
+APP层：应用层。对用户全部开放，几乎所有工作堵在APP层完成
+HAL层：硬件驱动层，是我们可以修改的
+MT层：协议栈串口通信层
+NWK:网络通信层
+AF层：有两个函数：无线接收、无线发送
+协议栈串口
+1：在MT层打开MT_UART.C 找到void MT_UartInit ()（MT层串口初始化函数）进行波特率和流控制设置，一定要设置为无流控制
+
+uartConfig.configured           = TRUE;
+  uartConfig.baudRate             = MT_UART_DEFAULT_BAUDRATE;//波特率设置
+  uartConfig.flowControl          = MT_UART_DEFAULT_OVERFLOW;//有无流控制
+  uartConfig.flowControlThreshold = MT_UART_DEFAULT_THRESHOLD;
+  uartConfig.rx.maxBufSize        = MT_UART_DEFAULT_MAX_RX_BUFF;
+  uartConfig.tx.maxBufSize        = MT_UART_DEFAULT_MAX_TX_BUFF;
+  uartConfig.idleTimeout          = MT_UART_DEFAULT_IDLE_TIMEOUT;
+  uartConfig.intEnable            = TRUE;
+#if defined (ZTOOL_P1) || defined (ZTOOL_P2)
+  uartConfig.callBackFunc         = MT_UartProcessZToolData;//串口回传函数
+#elif defined (ZAPP_P1) || defined (ZAPP_P2)
+  uartConfig.callBackFunc         = MT_UartProcessZAppData;
+#else
+  uartConfig.callBackFunc         = NULL;
+#endif
+2：在APP层操作
+1：在SAMPLEAPP.C前面包含MT_UART.h
+2：在SAMPLEAPP.C 找到void SampleApp_Init( uint8 task_id )APP层的初始化函数
+     1：调用MT_UartInit();
+ZSTACK是一个操作系统，系统是以事件或任务来调度，在系统里面使用每一个事件或任务之前，必须注册这个事件或任务
+     2：注册串口任务
+void MT_UartRegisterTaskID( byte taskID )注册串口任务（在MT_UART.C）
+{
+  App_TaskID = taskID;
+}
+  3:可以操作串口
+ 串口操作的函数在HAL层里面HAL_UART.C里面
+uint16 HalUARTRead(uint8 port, uint8 *buf, uint16 len)读取串口的数据，接收
+uint16 HalUARTWrite(uint8 port, uint8 *buf, uint16 len)写串口数据，发送
+uint8 port：使用的串口
+, uint8 *buf：数据
+, uint16 len：数据长度
+HalUARTRead(0,  *buf, 1)
+HalUARTWrite(0, “OK”, 2)
+在程序初始化中向计算机发送OK
+乱码原因：程序是按照TI的协议设计
+删除预定义：
+1：直接删除
+2：在预处理符号之前加一个小写x
+协议栈的串口透传：
+1：设置波特率，流控制
+2：处理串口互传函数
+#if defined (ZTOOL_P1) || defined (ZTOOL_P2)
+  uartConfig.callBackFunc         = MT_UartProcessZToolData;串口回传函数
+MT_UartProcessZToolData;串口回传函数
+1：接收数据
+2：开辟内存空间（是按结构体形式）
+3：定义一个事件帧
+4：打包数据（包含帧头，数据长度等）
+5：把数据从MT层发送到APP层
+6：释放内存空间
+uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events 事件处理函数
+数据发送和处理：
+在SAMPLEAPP.C找到void SampleApp_Init( uint8 task_id )APP层初始化函数
+1：设置目的地址参数
+SampleApp_Periodic_DstAddr.addrMode = (afAddrMode_t)AddrBroadcast;//设置数据传输方式：广播，点播、组播
+  SampleApp_Periodic_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;//设置端点
+  SampleApp_Periodic_DstAddr.addr.shortAddr = 0xFFFF;//设置目的地址
+在STACK协议栈中
+SampleApp_Periodic_DstAddr表示广播
+SampleApp_Flash_DstAddr组播
+SampleApp_P2P_DstAddr点播
+端点：在ZSTACK协议栈中，把一组相同属性的参数归结为1类，就叫端点 智能家居：温度、湿度、亮度，电气开关
+ZSTACK协议栈有241个端点，0端点是系统占用 1-240
+广播目的地址为0XFFFF,点播目的地址为0X0000
+2、设置发送端参数，一般不用修改
+SampleApp_epDesc.endPoint = SAMPLEAPP_ENDPOINT;//端点，记着发送端和接收端的端点必须一致
+  SampleApp_epDesc.task_id = &SampleApp_TaskID;//任务
+  SampleApp_epDesc.simpleDesc
+            = (SimpleDescriptionFormat_t *)&SampleApp_SimpleDesc;//发送端简单描述符
+  SampleApp_epDesc.latencyReq = noLatencyReqs;//发送的半径，也可以是发射功率
+afRegister( &SampleApp_epDesc );//注册发送端简单描述符，这里面就包括事件帧
+3：事件处理函数
+uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
+发送端无线发送数据，在接收必然产生一个接收事件
+
+osal_start_timerEx( SampleApp_TaskID,//任务
+                              SAMPLEAPP_SEND_PERIODIC_MSG_EVT,//事件名称
+                              SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT//周期 );周期性产生一个事件函数
+周期性事件根据需要可以完成很多事情：采集传感器数据，向其他节点发送命令 在ZSTACK协议栈默认是发送数据
+无线发送：
+afStatus_t AF_DataRequest( afAddrType_t *dstAddr, endPointDesc_t *srcEP,
+                           uint16 cID, uint16 len, uint8 *buf, uint8 *transID,
+                           uint8 options, uint8 radius )
+afAddrType_t *dstAddr：发送数据的方式：广播、点播、组播
+endPointDesc_t *srcEP：发送端的端点描述符
+uint16 cID：簇属性，簇可以看成相同类型的集合
+uint16 len：发送数据的长度
+uint8 *buf：要发送的数据
+transID：传输ID
+radius:无线发送的功率：
+
+#define SAMPLEAPP_MAX_CLUSTERS       3//最大有几个簇
+#define SAMPLEAPP_PERIODIC_CLUSTERID 1//广播的簇
+#define SAMPLEAPP_FLASH_CLUSTERID     2//组播的簇
+#define SAMPLEAPP_P2P_CLUSTERID     3//点播的簇
+发送端无线发送数据，在接收必然产生一个接收事件AF_INCOMING_MSG_CMD
+SampleApp_MessageMSGCB( MSGpkt );接收数据函数
+设计一个即时通信系统，类似于微信或QQ的
+要求如下：
+1：系统由两个开发板组成，一个协调器、一个路由器
+2：协调器通过串口调试助手以广播的方式向路由器发送信息，路由器把收到的数据通过串口调试助手显示
+3：路由器收到信息后，通过串口调试助手以点播的方式向协调器发送信息。协调器把收到的数据通过串口调试助手显示，
+4：注意：每组以自己的组号选择信道。要两台计算机。
+
+
+
+
+
+
+
+
+
+
+
