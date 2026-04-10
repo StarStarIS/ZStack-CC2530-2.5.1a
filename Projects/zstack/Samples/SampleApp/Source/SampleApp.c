@@ -67,6 +67,33 @@
 
 #include "OnBoard.h"
 
+/* DHT11 Related */
+#include "DHT11.h"
+#include "hal_led.h"
+
+#define SH_START        0x3A
+#define SH_END          0x23
+#define SH_TYPE_LED     0x01
+#define SH_TYPE_TH      0x02
+#define SH_TYPE_LIGHT   0x03
+
+#if defined (CoordinatorEB)
+  #define SAMPLEAPP_DEVICE_ADDR  0x00
+#elif defined (RouterEB)
+  #define SAMPLEAPP_DEVICE_ADDR  0x01
+#else
+  #define SAMPLEAPP_DEVICE_ADDR  0x01
+#endif
+
+static uint8 SampleApp_IsSmartHomeFrame(uint8 *buf, uint8 len);
+static void SampleApp_SendP2PBuffer(uint8 *buf, uint8 len);
+static void SampleApp_HandleTHCmd(void);
+static void SampleApp_HandleBroadcastFrame(uint8 *buf, uint8 len);
+static void SampleApp_HandleLedCmd(uint8 ledNum, uint8 ledState);
+static uint8 SampleApp_AppendUInt8Dec(char *buf, uint8 idx, uint8 value);
+static void SampleApp_SendText(char *buf, uint8 len);
+static void SampleApp_ReportToPC(uint8 *buf, uint8 len);
+
 /* HAL */
 #include "hal_lcd.h"
 #include "hal_led.h"
@@ -188,6 +215,8 @@ void SampleApp_Init( uint8 task_id )
   MT_UartInit(); // Init MT Serial Port
   MT_UartRegisterTaskID( SampleApp_TaskID ); // Register task for MT Serial Port
 
+  DHT11_Init();
+
   HalUARTWrite(HAL_UART_PORT_0, txBuf, sizeof(txBuf)-1); // Send OK
   
   // Device hardware initialization can be added here or in main() (Zmain.c).
@@ -248,6 +277,7 @@ void SampleApp_Init( uint8 task_id )
 #if defined ( LCD_SUPPORTED )
   HalLcdWriteString( "SampleApp", HAL_LCD_LINE_1 );
 #endif
+
 }
 
 /*********************************************************************
@@ -368,6 +398,266 @@ afStatus_t SampleApp_SendP2PMessage(uint8 *buf, uint8 len)
                         AF_DEFAULT_RADIUS);
 }
 
+static uint8 SampleApp_IsSmartHomeFrame(uint8 *buf, uint8 len)
+{
+  if (buf == NULL)
+  {
+    return FALSE;
+  }
+
+  if (len < 5)
+  {
+    return FALSE;
+  }
+
+  if (buf[0] != SH_START)
+  {
+    return FALSE;
+  }
+
+  if (buf[len - 1] != SH_END)
+  {
+    return FALSE;
+  }
+
+  /* Total length of the protocol = START TYPE ADDR LEN DATA END = LEN + 5 */
+  if (buf[3] != (len - 5))
+  {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+static void SampleApp_SendP2PBuffer(uint8 *buf, uint8 len)
+{
+  if ((buf == NULL) || (len == 0))
+  {
+    return;
+  }
+
+  (void)AF_DataRequest(&SampleApp_P2P_DstAddr,
+                       &SampleApp_epDesc,
+                       SAMPLEAPP_P2P_CLUSTERID,
+                       len,
+                       buf,
+                       &SampleApp_TransID,
+                       AF_DISCV_ROUTE,
+                       AF_DEFAULT_RADIUS);
+}
+
+static void SampleApp_HandleLedCmd(uint8 ledNum, uint8 ledState)
+{
+  uint8 ledMask = 0;
+  uint8 rsp[7];
+
+  switch (ledNum)
+  {
+    case 0x01:
+      ledMask = HAL_LED_1;
+      break;
+
+    case 0x02:
+      ledMask = HAL_LED_2;
+      break;
+
+    case 0x03:
+      ledMask = HAL_LED_3;
+      break;
+
+    case 0x04:
+      ledMask = HAL_LED_4;
+      break;
+
+    default:
+      return;
+  }
+
+  if (ledState == 0x01)
+  {
+    HalLedSet(ledMask, HAL_LED_MODE_ON);
+  }
+  else if (ledState == 0x02)
+  {
+    HalLedSet(ledMask, HAL_LED_MODE_OFF);
+  }
+  else
+  {
+    return;
+  }
+
+  /* Response protocol matches the control protocol; echo it back as is. */
+  rsp[0] = SH_START;
+  rsp[1] = SH_TYPE_LED;
+  rsp[2] = SAMPLEAPP_DEVICE_ADDR;
+  rsp[3] = 0x02;
+  rsp[4] = ledNum;
+  rsp[5] = ledState;
+  rsp[6] = SH_END;
+
+  SampleApp_SendP2PBuffer(rsp, sizeof(rsp));
+}
+
+static void SampleApp_HandleTHCmd(void)
+{
+  uint8 temp = 0xFF;
+  uint8 hum  = 0xFF;
+  uint8 rsp[7];
+
+  /* When reading fails, first agree to return FF */
+  if (!DHT11_Read(&temp, &hum))
+  {
+    temp = 0xEE;
+    hum  = DHT11_LastErr;
+  }
+
+  rsp[0] = SH_START;
+  rsp[1] = SH_TYPE_TH;
+  rsp[2] = SAMPLEAPP_DEVICE_ADDR;
+  rsp[3] = 0x02;   /* DATA length = 2 */
+  rsp[4] = temp;
+  rsp[5] = hum;
+  rsp[6] = SH_END;
+
+  SampleApp_SendP2PBuffer(rsp, sizeof(rsp));
+}
+
+static void SampleApp_HandleBroadcastFrame(uint8 *buf, uint8 len)
+{
+  if (!SampleApp_IsSmartHomeFrame(buf, len))
+  {
+    return;
+  }
+
+  /* Ignore frames not addressed to this device or broadcast. */
+  if ((buf[2] != SAMPLEAPP_DEVICE_ADDR) && (buf[2] != 0xFF))
+  {
+    return;
+  }
+
+  switch (buf[1])
+  {
+    case SH_TYPE_LED:
+      /* LED control: DATA has two bytes; byte 1 selects the LED, byte 2 is 1=on, 2=off. */
+      if (buf[3] == 0x02)
+      {
+        SampleApp_HandleLedCmd(buf[4], buf[5]);
+      }
+      break;
+
+    case SH_TYPE_TH:
+      /* Temperature/humidity query request frame: 3A 02 ADDR 00 23 */
+      if (buf[3] == 0x00)
+      {
+        SampleApp_HandleTHCmd();
+      }
+      break;
+
+    default:
+      break;
+  }
+}
+
+static uint8 SampleApp_AppendUInt8Dec(char *buf, uint8 idx, uint8 value)
+{
+  if (value >= 100)
+  {
+    buf[idx++] = '0' + (value / 100);
+    value %= 100;
+    buf[idx++] = '0' + (value / 10);
+    buf[idx++] = '0' + (value % 10);
+  }
+  else if (value >= 10)
+  {
+    buf[idx++] = '0' + (value / 10);
+    buf[idx++] = '0' + (value % 10);
+  }
+  else
+  {
+    buf[idx++] = '0' + value;
+  }
+
+  return idx;
+}
+
+static void SampleApp_SendText(char *buf, uint8 len)
+{
+  if ((buf != NULL) && (len > 0))
+  {
+    HalUARTWrite(HAL_UART_PORT_0, (uint8 *)buf, len);
+  }
+}
+
+static void SampleApp_ReportToPC(uint8 *buf, uint8 len)
+{
+  char out[48];
+  uint8 n = 0;
+
+  if (!SampleApp_IsSmartHomeFrame(buf, len))
+  {
+    SampleApp_SendText("Unknown\r\n", 9);
+    return;
+  }
+
+  switch (buf[1])
+  {
+    case SH_TYPE_LED:
+      /* Protocol: 3A 01 ADDR 02 LED_NUM LED_STATE 23 */
+      out[n++] = 'L';
+      out[n++] = 'E';
+      out[n++] = 'D';
+      n = SampleApp_AppendUInt8Dec(out, n, buf[4]);
+      out[n++] = ' ';
+
+      if (buf[5] == 0x01)
+      {
+        out[n++] = 'O';
+        out[n++] = 'N';
+      }
+      else if (buf[5] == 0x02)
+      {
+        out[n++] = 'O';
+        out[n++] = 'F';
+        out[n++] = 'F';
+      }
+      else
+      {
+        out[n++] = '?';
+      }
+
+      out[n++] = '\r';
+      out[n++] = '\n';
+      SampleApp_SendText(out, n);
+      break;
+
+    case SH_TYPE_TH:
+      /* Protocol: 3A 02 ADDR 02 TEMP HUM 23 */
+      out[n++] = 'T';
+      out[n++] = 'e';
+      out[n++] = 'm';
+      out[n++] = 'p';
+      out[n++] = ':';
+      n = SampleApp_AppendUInt8Dec(out, n, buf[4]);
+      out[n++] = 'C';
+      out[n++] = ',';
+      out[n++] = ' ';
+      out[n++] = 'H';
+      out[n++] = 'u';
+      out[n++] = 'm';
+      out[n++] = ':';
+      n = SampleApp_AppendUInt8Dec(out, n, buf[5]);
+      out[n++] = '%';
+      out[n++] = '\r';
+      out[n++] = '\n';
+      SampleApp_SendText(out, n);
+      break;
+
+    default:
+      SampleApp_SendText("Unknown\r\n", 9);
+      break;
+  }
+}
+
 void SerialCMD(mtOSALSerialData_t *UartMsg)
 {
   uint8 len;
@@ -462,18 +752,25 @@ void SampleApp_HandleKeys( uint8 shift, uint8 keys )
  *
  * @return  none
  */
-void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
+void SampleApp_MessageMSGCB(afIncomingMSGPacket_t *pkt)
 {
-  switch ( pkt->clusterId )
+  switch (pkt->clusterId)
   {
-    case SAMPLEAPP_PERIODIC_CLUSTERID:   // coordinator broadcasts, router receives
-      HalUARTWrite(0, pkt->cmd.Data, pkt->cmd.DataLength);
-      HalUARTWrite(0, (uint8 *)"\r\n", 2);
+    case SAMPLEAPP_PERIODIC_CLUSTERID:
+      /* The control commands broadcasted by the coordinator are processed by the router/terminal */
+      if ((SampleApp_NwkState == DEV_ROUTER) ||
+          (SampleApp_NwkState == DEV_END_DEVICE))
+      {
+        SampleApp_HandleBroadcastFrame(pkt->cmd.Data, pkt->cmd.DataLength);
+      }
       break;
 
-    case SAMPLEAPP_P2P_CLUSTERID:        // router unicast, coordinator receives
-      HalUARTWrite(0, pkt->cmd.Data, pkt->cmd.DataLength);
-      HalUARTWrite(0, (uint8 *)"\r\n", 2);
+    case SAMPLEAPP_P2P_CLUSTERID:
+      /* The data sent from the router to the coordinator, forwarded by the coordinator to the serial port */
+      if (SampleApp_NwkState == DEV_ZB_COORD)
+      {
+        SampleApp_ReportToPC(pkt->cmd.Data, pkt->cmd.DataLength);
+      }
       break;
 
     default:

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        08/Apr/2026  14:07:51 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        09/Apr/2026  12:00:31 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -166,10 +166,12 @@
         FUNCTION ??zmain_ext_addr?relay,0203H
         PUBWEAK CLKCONCMD
         PUBWEAK CLKCONSTA
+        PUBWEAK P0DIR
         PUBWEAK P0INP
         PUBWEAK P1DIR
         PUBWEAK SLEEPCMD
         PUBWEAK SLEEPSTA
+        PUBWEAK _A_P0
         PUBWEAK _A_P1
         PUBLIC main
         FUNCTION main,0a1a03H
@@ -589,6 +591,12 @@ main                SYMBOL "main"
 //   47 #endif
 //   48 #include "hal_adc.h"
 
+        ASEGN SFR_AN:DATA:NOROOT,080H
+// union <unnamed> volatile __sfr _A_P0
+_A_P0:
+        DATA8
+        DS 1
+
         ASEGN SFR_AN:DATA:NOROOT,08fH
 // unsigned char volatile __sfr P0INP
 P0INP:
@@ -622,6 +630,12 @@ SLEEPCMD:
         ASEGN SFR_AN:DATA:NOROOT,0c6H
 // unsigned char volatile __sfr CLKCONCMD
 CLKCONCMD:
+        DATA8
+        DS 1
+
+        ASEGN SFR_AN:DATA:NOROOT,0fdH
+// unsigned char volatile __sfr P0DIR
+P0DIR:
         DATA8
         DS 1
 
@@ -836,13 +850,15 @@ main:
         MOV     DPTR,#0x6270
         MOV     A,#0x8
         MOVX    @DPTR,A
-        CLR     0x90.0
-        ORL     0xfe,#0x1
-        CLR     0x90.1
-        ORL     0xfe,#0x2
-        CLR     0x90.4
+        SETB    0x90.4
         ORL     0xfe,#0x10
-        ORL     0x8f,#0x1
+        SETB    0x80.1
+        ORL     0xfd,#0x2
+        SETB    0x90.0
+        ORL     0xfe,#0x1
+        SETB    0x90.1
+        ORL     0xfe,#0x2
+        MOV     0x8f,0x8f
 //   86 
 //   87   // Make sure supply voltage is high enough to run
 //   88   zmain_vdd_check();
@@ -945,6 +961,8 @@ main:
         REQUIRE CLKCONSTA
         REQUIRE _A_P1
         REQUIRE P1DIR
+        REQUIRE _A_P0
+        REQUIRE P0DIR
         REQUIRE P0INP
 //  143 } // main()
 //  144 
@@ -1604,14 +1622,14 @@ zmain_ext_addr:
 //  365 /*********************************************************************
 //  366 *********************************************************************/
 // 
-// 523 bytes in segment BANKED_CODE
+// 528 bytes in segment BANKED_CODE
 //  12 bytes in segment BANK_RELAYS
-//   7 bytes in segment SFR_AN
+//   9 bytes in segment SFR_AN
 //   8 bytes in segment XDATA_ROM_C
 // 
-// 535 bytes of CODE  memory
+// 540 bytes of CODE  memory
 //   8 bytes of CONST memory
-//   0 bytes of DATA  memory (+ 7 bytes shared)
+//   0 bytes of DATA  memory (+ 9 bytes shared)
 //
 //Errors: none
 //Warnings: none

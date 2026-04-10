@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         08/Apr/2026  14:07:51 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         09/Apr/2026  12:00:31 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -183,6 +183,11 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
      47          #endif
      48          #include "hal_adc.h"
 
+   \                                 In  segment SFR_AN, at 0x80
+   \   union <unnamed> volatile __sfr _A_P0
+   \                     _A_P0:
+   \   000000                DS 1
+
    \                                 In  segment SFR_AN, at 0x8f
    \   unsigned char volatile __sfr P0INP
    \                     P0INP:
@@ -211,6 +216,11 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
    \                                 In  segment SFR_AN, at 0xc6
    \   unsigned char volatile __sfr CLKCONCMD
    \                     CLKCONCMD:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xfd
+   \   unsigned char volatile __sfr P0DIR
+   \                     P0DIR:
    \   000000                DS 1
 
    \                                 In  segment SFR_AN, at 0xfe
@@ -288,54 +298,56 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
    \   00002A   906270       MOV     DPTR,#0x6270
    \   00002D   7408         MOV     A,#0x8
    \   00002F   F0           MOVX    @DPTR,A
-   \   000030   C290         CLR     0x90.0
-   \   000032   43FE01       ORL     0xfe,#0x1
-   \   000035   C291         CLR     0x90.1
-   \   000037   43FE02       ORL     0xfe,#0x2
-   \   00003A   C294         CLR     0x90.4
-   \   00003C   43FE10       ORL     0xfe,#0x10
-   \   00003F   438F01       ORL     0x8f,#0x1
+   \   000030   D294         SETB    0x90.4
+   \   000032   43FE10       ORL     0xfe,#0x10
+   \   000035   D281         SETB    0x80.1
+   \   000037   43FD02       ORL     0xfd,#0x2
+   \   00003A   D290         SETB    0x90.0
+   \   00003C   43FE01       ORL     0xfe,#0x1
+   \   00003F   D291         SETB    0x90.1
+   \   000041   43FE02       ORL     0xfe,#0x2
+   \   000044   858F8F       MOV     0x8f,0x8f
      86          
      87            // Make sure supply voltage is high enough to run
      88            zmain_vdd_check();
-   \   000042   7E10         MOV     R6,#0x10
+   \   000047   7E10         MOV     R6,#0x10
    \                     ??main_3:
-   \   000044                ; Setup parameters for call to function HalAdcCheckVdd
-   \   000044   794A         MOV     R1,#0x4a
-   \   000046   12....       LCALL   ??HalAdcCheckVdd?relay
-   \   000049   E9           MOV     A,R1
-   \   00004A   60F8         JZ      ??main_3
-   \   00004C   1E           DEC     R6
-   \   00004D   EE           MOV     A,R6
-   \   00004E   70F4         JNZ     ??main_3
+   \   000049                ; Setup parameters for call to function HalAdcCheckVdd
+   \   000049   794A         MOV     R1,#0x4a
+   \   00004B   12....       LCALL   ??HalAdcCheckVdd?relay
+   \   00004E   E9           MOV     A,R1
+   \   00004F   60F8         JZ      ??main_3
+   \   000051   1E           DEC     R6
+   \   000052   EE           MOV     A,R6
+   \   000053   70F4         JNZ     ??main_3
      89          
      90            // Initialize board I/O
      91            InitBoard( OB_COLD );
-   \   000050                ; Setup parameters for call to function InitBoard
-   \   000050   7900         MOV     R1,#0x0
-   \   000052   12....       LCALL   ??InitBoard?relay
+   \   000055                ; Setup parameters for call to function InitBoard
+   \   000055   7900         MOV     R1,#0x0
+   \   000057   12....       LCALL   ??InitBoard?relay
      92          
      93            // Initialze HAL drivers
      94            HalDriverInit();
-   \   000055                ; Setup parameters for call to function HalDriverInit
-   \   000055   12....       LCALL   ??HalDriverInit?relay
+   \   00005A                ; Setup parameters for call to function HalDriverInit
+   \   00005A   12....       LCALL   ??HalDriverInit?relay
      95          
      96            // Initialize NV System
      97            osal_nv_init( NULL );
-   \   000058                ; Setup parameters for call to function osal_nv_init
-   \   000058   7A00         MOV     R2,#0x0
-   \   00005A   7B00         MOV     R3,#0x0
-   \   00005C   12....       LCALL   ??osal_nv_init?relay
+   \   00005D                ; Setup parameters for call to function osal_nv_init
+   \   00005D   7A00         MOV     R2,#0x0
+   \   00005F   7B00         MOV     R3,#0x0
+   \   000061   12....       LCALL   ??osal_nv_init?relay
      98          
      99            // Initialize the MAC
     100            ZMacInit();
-   \   00005F                ; Setup parameters for call to function ZMacInit
-   \   00005F   12....       LCALL   ??ZMacInit?relay
+   \   000064                ; Setup parameters for call to function ZMacInit
+   \   000064   12....       LCALL   ??ZMacInit?relay
     101          
     102            // Determine the extended address
     103            zmain_ext_addr();
-   \   000062                ; Setup parameters for call to function zmain_ext_addr
-   \   000062   12....       LCALL   ??zmain_ext_addr?relay
+   \   000067                ; Setup parameters for call to function zmain_ext_addr
+   \   000067   12....       LCALL   ??zmain_ext_addr?relay
     104          
     105          #if defined ZCL_KEY_ESTABLISH
     106            // Initialize the Certicom certificate information.
@@ -344,8 +356,8 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
     109          
     110            // Initialize basic NV items
     111            zgInit();
-   \   000065                ; Setup parameters for call to function zgInit
-   \   000065   12....       LCALL   ??zgInit?relay
+   \   00006A                ; Setup parameters for call to function zgInit
+   \   00006A   12....       LCALL   ??zgInit?relay
     112          
     113          #ifndef NONWK
     114            // Since the AF isn't a task, call it's initialization routine
@@ -354,20 +366,20 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
     117          
     118            // Initialize the operating system
     119            osal_init_system();
-   \   000068                ; Setup parameters for call to function osal_init_system
-   \   000068   12....       LCALL   ??osal_init_system?relay
+   \   00006D                ; Setup parameters for call to function osal_init_system
+   \   00006D   12....       LCALL   ??osal_init_system?relay
     120          
     121            // Allow interrupts
     122            osal_int_enable( INTS_ALL );
-   \   00006B                ; Setup parameters for call to function osal_int_enable
-   \   00006B   79FF         MOV     R1,#-0x1
-   \   00006D   12....       LCALL   ??osal_int_enable?relay
+   \   000070                ; Setup parameters for call to function osal_int_enable
+   \   000070   79FF         MOV     R1,#-0x1
+   \   000072   12....       LCALL   ??osal_int_enable?relay
     123          
     124            // Final board initialization
     125            InitBoard( OB_READY );
-   \   000070                ; Setup parameters for call to function InitBoard
-   \   000070   7902         MOV     R1,#0x2
-   \   000072   12....       LCALL   ??InitBoard?relay
+   \   000075                ; Setup parameters for call to function InitBoard
+   \   000075   7902         MOV     R1,#0x2
+   \   000077   12....       LCALL   ??InitBoard?relay
     126          
     127            // Display information about this device
     128            zmain_dev_info();
@@ -383,20 +395,22 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
     138          #endif
     139          
     140            osal_start_system(); // No Return from here
-   \   000075                ; Setup parameters for call to function osal_start_system
-   \   000075   12....       LCALL   ??osal_start_system?relay
+   \   00007A                ; Setup parameters for call to function osal_start_system
+   \   00007A   12....       LCALL   ??osal_start_system?relay
     141          
     142            return 0;  // Shouldn't get here.
-   \   000078   7A00         MOV     R2,#0x0
-   \   00007A   7B00         MOV     R3,#0x0
-   \   00007C   02....       LJMP    ?BRET
-   \   00007F                REQUIRE SLEEPCMD
-   \   00007F                REQUIRE SLEEPSTA
-   \   00007F                REQUIRE CLKCONCMD
-   \   00007F                REQUIRE CLKCONSTA
-   \   00007F                REQUIRE _A_P1
-   \   00007F                REQUIRE P1DIR
-   \   00007F                REQUIRE P0INP
+   \   00007D   7A00         MOV     R2,#0x0
+   \   00007F   7B00         MOV     R3,#0x0
+   \   000081   02....       LJMP    ?BRET
+   \   000084                REQUIRE SLEEPCMD
+   \   000084                REQUIRE SLEEPSTA
+   \   000084                REQUIRE CLKCONCMD
+   \   000084                REQUIRE CLKCONSTA
+   \   000084                REQUIRE _A_P1
+   \   000084                REQUIRE P1DIR
+   \   000084                REQUIRE _A_P0
+   \   000084                REQUIRE P0DIR
+   \   000084                REQUIRE P0INP
     143          } // main()
     144          
     145          /*********************************************************************
@@ -881,14 +895,16 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
 
      Function/Label                                 Bytes
      --------------                                 -----
+     _A_P0                                             1
      P0INP                                             1
      _A_P1                                             1
      SLEEPSTA                                          1
      CLKCONSTA                                         1
      SLEEPCMD                                          1
      CLKCONCMD                                         1
+     P0DIR                                             1
      P1DIR                                             1
-     main                                            127
+     main                                            132
      zmain_ext_addr                                  381
      ?Subroutine0                                     15
      ??main?relay                                      6
@@ -896,14 +912,14 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\ZMain\TI
      ?<Constant {255, 255, 255, 255, 255, 255, 255,    8
 
  
- 523 bytes in segment BANKED_CODE
+ 528 bytes in segment BANKED_CODE
   12 bytes in segment BANK_RELAYS
-   7 bytes in segment SFR_AN
+   9 bytes in segment SFR_AN
    8 bytes in segment XDATA_ROM_C
  
- 535 bytes of CODE  memory
+ 540 bytes of CODE  memory
    8 bytes of CONST memory
-   0 bytes of DATA  memory (+ 7 bytes shared)
+   0 bytes of DATA  memory (+ 9 bytes shared)
 
 Errors: none
 Warnings: none

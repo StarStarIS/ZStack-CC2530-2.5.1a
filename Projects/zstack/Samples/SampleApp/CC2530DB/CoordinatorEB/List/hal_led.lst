@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         08/Apr/2026  14:07:44 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         09/Apr/2026  12:00:26 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -177,6 +177,11 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
      41           *                                             INCLUDES
      42           ***************************************************************************************************/
      43          #include "hal_mcu.h"
+
+   \                                 In  segment SFR_AN, at 0x80
+   \   union <unnamed> volatile __sfr _A_P0
+   \                     _A_P0:
+   \   000000                DS 1
 
    \                                 In  segment SFR_AN, at 0x90
    \   union <unnamed> volatile __sfr _A_P1
@@ -1075,14 +1080,14 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
    \   00000C   7004         JNZ     ??HalLedOnOff_1
     383              {
     384                HAL_TURN_ON_LED1();
-   \   00000E   D290         SETB    0x90.0
+   \   00000E   C294         CLR     0x90.4
    \   000010   8002         SJMP    ??HalLedOnOff_0
     385              }
     386              else
     387              {
     388                HAL_TURN_OFF_LED1();
    \                     ??HalLedOnOff_1:
-   \   000012   C290         CLR     0x90.0
+   \   000012   D294         SETB    0x90.4
     389              }
     390            }
     391          
@@ -1098,14 +1103,14 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
    \   00001C   7004         JNZ     ??HalLedOnOff_3
     395              {
     396                HAL_TURN_ON_LED2();
-   \   00001E   D291         SETB    0x90.1
+   \   00001E   C281         CLR     0x80.1
    \   000020   8002         SJMP    ??HalLedOnOff_2
     397              }
     398              else
     399              {
     400                HAL_TURN_OFF_LED2();
    \                     ??HalLedOnOff_3:
-   \   000022   C291         CLR     0x90.1
+   \   000022   D281         SETB    0x80.1
     401              }
     402            }
     403          
@@ -1121,14 +1126,14 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
    \   00002C   7004         JNZ     ??HalLedOnOff_5
     407              {
     408                HAL_TURN_ON_LED3();
-   \   00002E   D294         SETB    0x90.4
+   \   00002E   C290         CLR     0x90.0
    \   000030   8002         SJMP    ??HalLedOnOff_4
     409              }
     410              else
     411              {
     412                HAL_TURN_OFF_LED3();
    \                     ??HalLedOnOff_5:
-   \   000032   C294         CLR     0x90.4
+   \   000032   D290         SETB    0x90.0
     413              }
     414            }
     415          
@@ -1144,14 +1149,14 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
    \   00003C   7004         JNZ     ??HalLedOnOff_7
     419              {
     420                HAL_TURN_ON_LED4();
-   \   00003E   D290         SETB    0x90.0
+   \   00003E   C291         CLR     0x90.1
    \   000040   8005         SJMP    ??HalLedOnOff_8
     421              }
     422              else
     423              {
     424                HAL_TURN_OFF_LED4();
    \                     ??HalLedOnOff_7:
-   \   000042   C290         CLR     0x90.0
+   \   000042   D291         SETB    0x90.1
     425              }
     426            }
     427          
@@ -1182,6 +1187,7 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
    \                     ??HalLedOnOff_10:
    \   000057   80..         SJMP    ??Subroutine2_0
    \   000059                REQUIRE _A_P1
+   \   000059                REQUIRE _A_P0
     437          }
     438          #endif /* HAL_LED */
     439          
@@ -1247,70 +1253,62 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
    \   00000A   E590         MOV     A,0x90
    \   00000C   FB           MOV     R3,A
     478            HalSleepLedState |= HAL_STATE_LED2() << 1;
-   \   00000D   E590         MOV     A,0x90
+   \   00000D   E580         MOV     A,0x80
    \   00000F   F8           MOV     R0,A
     479            HalSleepLedState |= HAL_STATE_LED3() << 2;
    \   000010   E590         MOV     A,0x90
    \   000012   F9           MOV     R1,A
     480            HalSleepLedState |= HAL_STATE_LED4() << 3;
-   \   000013   E590         MOV     A,0x90
-   \   000015   FA           MOV     R2,A
-   \   000016   E8           MOV     A,R0
-   \   000017   A2E1         MOV     C,0xE0 /* A   */.1
-   \   000019   5004         JNC     ??HalLedEnterSleep_0
-   \   00001B   D2F0         SETB    B.0
-   \   00001D   8002         SJMP    ??HalLedEnterSleep_1
+   \   000013   D2F0         SETB    B.0
+   \   000015   A291         MOV     C,0x90.1
+   \   000017   30F001       JNB     B.0,??HalLedEnterSleep_0
+   \   00001A   B3           CPL     C
    \                     ??HalLedEnterSleep_0:
-   \   00001F   C2F0         CLR     B.0
-   \                     ??HalLedEnterSleep_1:
+   \   00001B   E4           CLR     A
+   \   00001C   33           RLC     A
+   \   00001D   33           RLC     A
+   \   00001E   33           RLC     A
+   \   00001F   33           RLC     A
+   \   000020   FA           MOV     R2,A
    \   000021   E9           MOV     A,R1
-   \   000022   A2E4         MOV     C,0xE0 /* A   */.4
-   \   000024   5004         JNC     ??HalLedEnterSleep_2
-   \   000026   D2F1         SETB    B.1
-   \   000028   8002         SJMP    ??HalLedEnterSleep_3
+   \   000022   A2E0         MOV     C,0xE0 /* A   */.0
+   \   000024   30F001       JNB     B.0,??HalLedEnterSleep_1
+   \   000027   B3           CPL     C
+   \                     ??HalLedEnterSleep_1:
+   \   000028   E4           CLR     A
+   \   000029   33           RLC     A
+   \   00002A   33           RLC     A
+   \   00002B   33           RLC     A
+   \   00002C   F9           MOV     R1,A
+   \   00002D   7402         MOV     A,#0x2
+   \   00002F   68           XRL     A,R0
+   \   000030   5402         ANL     A,#0x2
+   \   000032   F8           MOV     R0,A
+   \   000033   EB           MOV     A,R3
+   \   000034   A2E4         MOV     C,0xE0 /* A   */.4
+   \   000036   30F001       JNB     B.0,??HalLedEnterSleep_2
+   \   000039   B3           CPL     C
    \                     ??HalLedEnterSleep_2:
-   \   00002A   C2F1         CLR     B.1
-   \                     ??HalLedEnterSleep_3:
-   \   00002C   EA           MOV     A,R2
-   \   00002D   A2E0         MOV     C,0xE0 /* A   */.0
-   \   00002F   E4           CLR     A
-   \   000030   33           RLC     A
-   \   000031   33           RLC     A
-   \   000032   33           RLC     A
-   \   000033   33           RLC     A
-   \   000034   FA           MOV     R2,A
-   \   000035   A2F1         MOV     C,B.1
-   \   000037   E4           CLR     A
-   \   000038   33           RLC     A
-   \   000039   33           RLC     A
-   \   00003A   33           RLC     A
-   \   00003B   F9           MOV     R1,A
-   \   00003C   A2F0         MOV     C,B.0
-   \   00003E   E4           CLR     A
-   \   00003F   33           RLC     A
-   \   000040   33           RLC     A
-   \   000041   F8           MOV     R0,A
-   \   000042   EB           MOV     A,R3
-   \   000043   A2E0         MOV     C,0xE0 /* A   */.0
-   \   000045   E4           CLR     A
-   \   000046   33           RLC     A
-   \   000047   48           ORL     A,R0
-   \   000048   49           ORL     A,R1
-   \   000049   4A           ORL     A,R2
-   \   00004A   90....       MOV     DPTR,#HalSleepLedState
-   \   00004D   F0           MOVX    @DPTR,A
+   \   00003A   E4           CLR     A
+   \   00003B   33           RLC     A
+   \   00003C   48           ORL     A,R0
+   \   00003D   49           ORL     A,R1
+   \   00003E   4A           ORL     A,R2
+   \   00003F   90....       MOV     DPTR,#HalSleepLedState
+   \   000042   F0           MOVX    @DPTR,A
     481          
     482            /* TURN OFF all LEDs to save power */
     483            HalLedOnOff (HAL_LED_ALL, HAL_LED_MODE_OFF);
-   \   00004E                ; Setup parameters for call to function HalLedOnOff
-   \   00004E   7A00         MOV     R2,#0x0
-   \   000050   790F         MOV     R1,#0xf
-   \   000052   12....       LCALL   ??HalLedOnOff?relay
+   \   000043                ; Setup parameters for call to function HalLedOnOff
+   \   000043   7A00         MOV     R2,#0x0
+   \   000045   790F         MOV     R1,#0xf
+   \   000047   12....       LCALL   ??HalLedOnOff?relay
     484          #endif /* HAL_LED */
     485          
     486          }
-   \   000055   80..         SJMP    ??Subroutine3_0
-   \   000057                REQUIRE _A_P1
+   \   00004A   80..         SJMP    ??Subroutine3_0
+   \   00004C                REQUIRE _A_P1
+   \   00004C                REQUIRE _A_P0
     487          
     488          /***************************************************************************************************
     489           * @fn      HalLedExitSleep
@@ -1349,7 +1347,7 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
     507          #ifdef BLINK_LEDS
     508            /* Sleep OFF */
     509            HalLedStatusControl.sleepActive = FALSE;
-   \   000011   02....       LJMP    ?Subroutine0 & 0xFFFF
+   \   000011   80..         SJMP    ?Subroutine0
     510          #endif /* BLINK_LEDS */
     511          }
 
@@ -1439,6 +1437,7 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
 
      Function/Label           Bytes
      --------------           -----
+     _A_P0                       1
      _A_P1                       1
      HalLedState                 1
      HalSleepLedState            1
@@ -1454,8 +1453,8 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
      HalLedUpdate              441
      HalLedOnOff                89
      HalLedGetState             11
-     HalLedEnterSleep           87
-     HalLedExitSleep            20
+     HalLedEnterSleep           76
+     HalLedExitSleep            19
      __Constant_64               4
      ??HalLedInit?relay          6
      ??HalLedSet?relay           6
@@ -1467,15 +1466,15 @@ D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Components\hal\target\CC
      ??HalLedExitSleep?relay     6
 
  
- 1 024 bytes in segment BANKED_CODE
+ 1 012 bytes in segment BANKED_CODE
     48 bytes in segment BANK_RELAYS
-     1 byte  in segment SFR_AN
+     2 bytes in segment SFR_AN
      4 bytes in segment XDATA_ROM_C
     40 bytes in segment XDATA_Z
  
- 1 072 bytes of CODE  memory
+ 1 060 bytes of CODE  memory
      0 bytes of CONST memory (+ 4 bytes shared)
-     0 bytes of DATA  memory (+ 1 byte  shared)
+     0 bytes of DATA  memory (+ 2 bytes shared)
     40 bytes of XDATA memory
 
 Errors: none

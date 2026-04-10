@@ -1,0 +1,1014 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         09/Apr/2026  20:07:59 #
+# Copyright 2004-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Core               =  plain                                              #
+#    Code model         =  banked                                             #
+#    Data model         =  large                                              #
+#    Calling convention =  xdata reentrant                                    #
+#    Constant location  =  data_rom                                           #
+#    Dptr setup         =  1,16                                               #
+#    Source file        =  D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\Source\DHT #
+#                          11.c                                               #
+#    Command line       =  -f D:\PersonalData\Study\TrainingCode\ZStack-CC253 #
+#                          0-2.5.1a\Projects\zstack\Samples\SampleApp\CC2530D #
+#                          B\..\..\..\Tools\CC2530DB\f8wRouter.cfg            #
+#                          (-DCPU32MHZ -DROOT=__near_func                     #
+#                          -DMAC_CFG_APP_PENDING_QUEUE=TRUE                   #
+#                          -DMAC_CFG_TX_DATA_MAX=5 -DMAC_CFG_TX_MAX=8         #
+#                          -DMAC_CFG_RX_MAX=5 -DRTR_NWK) -f                   #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\Tools\CC2530DB\f8wConfig.cfg (-DZIGBEEPRO  #
+#                          -DSECURE=0 -DZG_SECURE_DYNAMIC=0 -DREFLECTOR       #
+#                          -DDEFAULT_CHANLIST=0x00080000                      #
+#                          -DZDAPP_CONFIG_PAN_ID=0xFFFF                       #
+#                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_MA #
+#                          SK=0x007F -DBEACON_REQUEST_DELAY=100               #
+#                          -DBEACON_REQ_DELAY_MASK=0x00FF                     #
+#                          -DLINK_STATUS_JITTER_MASK=0x007F                   #
+#                          -DROUTE_EXPIRY_TIME=30 -DAPSC_ACK_WAIT_DURATION_PO #
+#                          LLED=3000 -DNWK_INDIRECT_MSG_TIMEOUT=7             #
+#                          -DMAX_RREQ_ENTRIES=8 -DAPSC_MAX_FRAME_RETRIES=3    #
+#                          -DNWK_MAX_DATA_RETRIES=2                           #
+#                          -DMAX_POLL_FAILURE_RETRIES=2 -DMAX_BCAST=9         #
+#                          -DAPS_MAX_GROUPS=16 -DMAX_RTG_ENTRIES=40           #
+#                          -DNWK_MAX_BINDING_ENTRIES=4                        #
+#                          -DMAX_BINDING_CLUSTER_IDS=4 "-DDEFAULT_KEY={0x01,  #
+#                          0x03, 0x05, 0x07, 0x09, 0x0B, 0x0D, 0x0F, 0x00,    #
+#                          0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0D}"         #
+#                          -DMAC_MAX_FRAME_SIZE=116                           #
+#                          -DZDNWKMGR_MIN_TRANSMISSIONS=20 "-DCONST=const     #
+#                          __code" -DGENERIC=__generic                        #
+#                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000        #
+#                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100)   #
+#                          -DREJOIN_POLL_RATE=440 D:\PersonalData\Study\Train #
+#                          ingCode\ZStack-CC2530-2.5.1a\Projects\zstack\Sampl #
+#                          es\SampleApp\Source\DHT11.c -D ZTOOL_P1 -D         #
+#                          MT_TASK -D MT_SYS_FUNC -D MT_ZDO_FUNC -D           #
+#                          LCD_SUPPORTED=DEBUG -lC D:\PersonalData\Study\Trai #
+#                          ningCode\ZStack-CC2530-2.5.1a\Projects\zstack\Samp #
+#                          les\SampleApp\CC2530DB\RouterEB\List\ -lA          #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\R #
+#                          outerEB\List\ --diag_suppress Pe001,Pa010 -o       #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\R #
+#                          outerEB\Obj\ -e --no_code_motion --debug           #
+#                          --core=plain --dptr=16,1 --data_model=large        #
+#                          --code_model=banked --calling_convention=xdata_ree #
+#                          ntrant --place_constants=data_rom                  #
+#                          --nr_virtual_regs 16 -I D:\PersonalData\Study\Trai #
+#                          ningCode\ZStack-CC2530-2.5.1a\Projects\zstack\Samp #
+#                          les\SampleApp\CC2530DB\ -I                         #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\Source\ -I D:\PersonalData\Study\TrainingCode\ZS #
+#                          tack-CC2530-2.5.1a\Projects\zstack\Samples\SampleA #
+#                          pp\CC2530DB\..\..\..\ZMain\TI2530DB\ -I            #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\hal\include\ -I           #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\hal\target\CC2530EB\ -I   #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\mac\include\ -I           #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\mac\high_level\ -I        #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\mac\low_level\srf04\ -I   #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\mac\low_level\srf04\singl #
+#                          e_chip\ -I D:\PersonalData\Study\TrainingCode\ZSta #
+#                          ck-CC2530-2.5.1a\Projects\zstack\Samples\SampleApp #
+#                          \CC2530DB\..\..\..\..\..\Components\mt\ -I         #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\osal\include\ -I          #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\services\saddr\ -I        #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\services\sdata\ -I        #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\stack\af\ -I              #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\stack\nwk\ -I             #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\stack\sapi\ -I            #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\stack\sec\ -I             #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\stack\sys\ -I             #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\stack\zdo\ -I             #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\zmac\ -I                  #
+#                          D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\. #
+#                          .\..\..\..\..\Components\zmac\f8w\ -Ohz            #
+#                          --require_prototypes                               #
+#    List file          =  D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\R #
+#                          outerEB\List\DHT11.lst                             #
+#    Object file        =  D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2 #
+#                          .5.1a\Projects\zstack\Samples\SampleApp\CC2530DB\R #
+#                          outerEB\Obj\DHT11.r51                              #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+D:\PersonalData\Study\TrainingCode\ZStack-CC2530-2.5.1a\Projects\zstack\Samples\SampleApp\Source\DHT11.c
+      1          #include <ioCC2530.h>
+                                     ^
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is
+          only issued once)
+
+   \                                 In  segment SFR_AN, at 0xa0
+   \   union <unnamed> volatile __sfr _A_P2
+   \                     _A_P2:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xa8
+   \   union <unnamed> volatile __sfr _A_IEN0
+   \                     _A_IEN0:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xf5
+   \   unsigned char volatile __sfr P2SEL
+   \                     P2SEL:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xff
+   \   unsigned char volatile __sfr P2DIR
+   \                     P2DIR:
+   \   000000                DS 1
+      2          #include "hal_types.h"
+      3          #include "hal_mcu.h"
+      4          #include "DHT11.h"
+      5          
+      6          #define DHT11_DATA      P2_0
+      7          #define DHT11_PIN_MASK  0x01
+      8          
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+      9          uint8 DHT11_LastErr = 0;
+   \                     DHT11_LastErr:
+   \   000000                DS 1
+   \   000001                REQUIRE __INIT_XDATA_Z
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+     10          uint8 DHT11_LastRaw[5] = {0, 0, 0, 0, 0};
+   \                     DHT11_LastRaw:
+   \   000000                DS 5
+   \   000005                REQUIRE __INIT_XDATA_Z
+     11          
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+     12          static uint8 dht11ByteError = 0;
+   \                     dht11ByteError:
+   \   000000                DS 1
+   \   000001                REQUIRE __INIT_XDATA_Z
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+     13          static uint8 dht11Ready = 0;
+   \                     dht11Ready:
+   \   000000                DS 1
+   \   000001                REQUIRE __INIT_XDATA_Z
+     14          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     15          static void delay_us(void)
+   \                     delay_us:
+     16          {
+   \   000000                ; Saved register size: 0
+   \   000000                ; Auto size: 0
+     17            asm("nop");
+   \   000000   00           nop
+     18            asm("nop");
+   \   000001   00           nop
+     19            asm("nop");
+   \   000002   00           nop
+     20            asm("nop");
+   \   000003   00           nop
+     21            asm("nop");
+   \   000004   00           nop
+     22            asm("nop");
+   \   000005   00           nop
+     23            asm("nop");
+   \   000006   00           nop
+     24            asm("nop");
+   \   000007   00           nop
+     25            asm("nop");
+   \   000008   00           nop
+     26            asm("nop");
+   \   000009   00           nop
+     27            asm("nop");
+   \   00000A   00           nop
+     28            asm("nop");
+   \   00000B   00           nop
+     29            asm("nop");
+   \   00000C   00           nop
+     30            asm("nop");
+   \   00000D   00           nop
+     31            asm("nop");
+   \   00000E   00           nop
+     32            asm("nop");
+   \   00000F   00           nop
+     33            asm("nop");
+   \   000010   00           nop
+     34            asm("nop");
+   \   000011   00           nop
+     35            asm("nop");
+   \   000012   00           nop
+     36            asm("nop");
+   \   000013   00           nop
+     37            asm("nop");
+   \   000014   00           nop
+     38            asm("nop");
+   \   000015   00           nop
+     39            asm("nop");
+   \   000016   00           nop
+     40            asm("nop");
+   \   000017   00           nop
+     41            asm("nop");
+   \   000018   00           nop
+     42            asm("nop");
+   \   000019   00           nop
+     43            asm("nop");
+   \   00001A   00           nop
+     44            asm("nop");
+   \   00001B   00           nop
+     45            asm("nop");
+   \   00001C   00           nop
+     46            asm("nop");
+   \   00001D   00           nop
+     47            asm("nop");
+   \   00001E   00           nop
+     48            asm("nop");
+   \   00001F   00           nop
+     49            asm("nop");
+   \   000020   00           nop
+     50            asm("nop");
+   \   000021   00           nop
+     51            asm("nop");
+   \   000022   00           nop
+     52            asm("nop");
+   \   000023   00           nop
+     53            asm("nop");
+   \   000024   00           nop
+     54            asm("nop");
+   \   000025   00           nop
+     55            asm("nop");
+   \   000026   00           nop
+     56            asm("nop");
+   \   000027   00           nop
+     57          }
+   \   000028   02....       LJMP    ?BRET
+     58          
+     59          static void delay_10us(void)
+     60          {
+     61            delay_us();
+     62            delay_us();
+     63          }
+     64          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     65          static void delay_ms(uint16 time)
+   \                     delay_ms:
+     66          {
+   \   000000   74F5         MOV     A,#-0xb
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 11
+   \   000005                ; Auto size: 0
+   \   000005   EA           MOV     A,R2
+   \   000006   FE           MOV     R6,A
+   \   000007   EB           MOV     A,R3
+   \   000008   FF           MOV     R7,A
+     67            uint16 i;
+     68            uint8 j;
+     69          
+     70            for(i = 0; i < time; i++)
+   \   000009   75..00       MOV     ?V0 + 0,#0x0
+   \   00000C   75..00       MOV     ?V0 + 1,#0x0
+   \   00000F   801B         SJMP    ??delay_ms_0
+     71            {
+     72              for(j = 0; j < 100; j++)
+   \                     ??delay_ms_1:
+   \   000011   75..64       MOV     ?V0 + 2,#0x64
+     73              {
+     74                delay_10us();
+   \                     ??delay_ms_2:
+   \   000014                ; Setup parameters for call to function delay_us
+   \   000014   12....       LCALL   ??delay_us?relay
+   \   000017                ; Setup parameters for call to function delay_us
+   \   000017   12....       LCALL   ??delay_us?relay
+     75              }
+   \   00001A   15..         DEC     ?V0 + 2
+   \   00001C   E5..         MOV     A,?V0 + 2
+   \   00001E   70F4         JNZ     ??delay_ms_2
+     76            }
+   \   000020   E5..         MOV     A,?V0 + 0
+   \   000022   2401         ADD     A,#0x1
+   \   000024   F5..         MOV     ?V0 + 0,A
+   \   000026   E5..         MOV     A,?V0 + 1
+   \   000028   3400         ADDC    A,#0x0
+   \   00002A   F5..         MOV     ?V0 + 1,A
+   \                     ??delay_ms_0:
+   \   00002C   C3           CLR     C
+   \   00002D   E5..         MOV     A,?V0 + 0
+   \   00002F   9E           SUBB    A,R6
+   \   000030   E5..         MOV     A,?V0 + 1
+   \   000032   9F           SUBB    A,R7
+   \   000033   40DC         JC      ??delay_ms_1
+     77          }
+   \   000035   7F03         MOV     R7,#0x3
+   \   000037   02....       LJMP    ?BANKED_LEAVE_XDATA
+     78          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     79          static uint8 dht11_wait_for_level(uint8 level, uint16 timeout)
+   \                     dht11_wait_for_level:
+     80          {
+   \   000000   74F7         MOV     A,#-0x9
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 9
+   \   000005                ; Auto size: 0
+   \   000005   89..         MOV     ?V0 + 0,R1
+   \   000007   EA           MOV     A,R2
+   \   000008   FE           MOV     R6,A
+   \   000009   EB           MOV     A,R3
+   \   00000A   800A         SJMP    ??dht11_wait_for_level_0
+     81            while(timeout > 0)
+     82            {
+     83              if((uint8)DHT11_DATA == level)
+     84              {
+     85                return 1;
+     86              }
+     87          
+     88              delay_us();
+   \                     ??dht11_wait_for_level_1:
+   \   00000C                ; Setup parameters for call to function delay_us
+   \   00000C   12....       LCALL   ??delay_us?relay
+     89              timeout--;
+   \   00000F   EE           MOV     A,R6
+   \   000010   24FF         ADD     A,#-0x1
+   \   000012   1E           DEC     R6
+   \   000013   EF           MOV     A,R7
+   \   000014   34FF         ADDC    A,#-0x1
+   \                     ??dht11_wait_for_level_0:
+   \   000016   FF           MOV     R7,A
+   \   000017   EE           MOV     A,R6
+   \   000018   4F           ORL     A,R7
+   \   000019   600C         JZ      ??dht11_wait_for_level_2
+   \   00001B   A2A0         MOV     C,0xa0.0
+   \   00001D   E4           CLR     A
+   \   00001E   33           RLC     A
+   \   00001F   65..         XRL     A,?V0 + 0
+   \   000021   70E9         JNZ     ??dht11_wait_for_level_1
+   \   000023   7901         MOV     R1,#0x1
+   \   000025   8002         SJMP    ??dht11_wait_for_level_3
+     90            }
+     91          
+     92            return 0;
+   \                     ??dht11_wait_for_level_2:
+   \   000027   7900         MOV     R1,#0x0
+   \                     ??dht11_wait_for_level_3:
+   \   000029                REQUIRE ?Subroutine0
+   \   000029                REQUIRE _A_P2
+   \   000029                ; // Fall through to label ?Subroutine0
+     93          }
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine0:
+   \   000000   7F01         MOV     R7,#0x1
+   \   000002   02....       LJMP    ?BANKED_LEAVE_XDATA
+     94          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     95          static uint8 dht11_read_byte(uint8 index)
+   \                     dht11_read_byte:
+     96          {
+   \   000000   74F7         MOV     A,#-0x9
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 9
+   \   000005                ; Auto size: 0
+   \   000005   89..         MOV     ?V0 + 0,R1
+     97            uint8 i;
+     98            uint8 value = 0;
+   \   000007   7E00         MOV     R6,#0x0
+     99          
+    100            dht11ByteError = 0;
+   \   000009   90....       MOV     DPTR,#dht11ByteError
+   \   00000C   E4           CLR     A
+   \   00000D   F0           MOVX    @DPTR,A
+    101          
+    102            for(i = 0; i < 8; i++)
+   \   00000E   7F08         MOV     R7,#0x8
+    103            {
+    104              if(!dht11_wait_for_level(1, 100))
+   \                     ??dht11_read_byte_0:
+   \   000010                ; Setup parameters for call to function dht11_wait_for_level
+   \   000010   7A64         MOV     R2,#0x64
+   \   000012   7B00         MOV     R3,#0x0
+   \   000014   7901         MOV     R1,#0x1
+   \   000016   12....       LCALL   ??dht11_wait_for_level?relay
+   \   000019   E9           MOV     A,R1
+   \   00001A   7012         JNZ     ??dht11_read_byte_1
+    105              {
+    106                DHT11_LastErr = 0x10 + index;
+   \   00001C   7410         MOV     A,#0x10
+   \                     ??dht11_read_byte_2:
+   \   00001E   25..         ADD     A,?V0 + 0
+   \   000020   90....       MOV     DPTR,#DHT11_LastErr
+   \   000023   F0           MOVX    @DPTR,A
+    107                dht11ByteError = 1;
+   \   000024   90....       MOV     DPTR,#dht11ByteError
+   \   000027   7401         MOV     A,#0x1
+   \   000029   F0           MOVX    @DPTR,A
+    108                return 0;
+   \   00002A   7900         MOV     R1,#0x0
+   \   00002C   8024         SJMP    ??dht11_read_byte_3
+    109              }
+    110          
+    111              delay_10us();
+   \                     ??dht11_read_byte_1:
+   \   00002E                ; Setup parameters for call to function delay_us
+   \   00002E   12....       LCALL   ?Subroutine1 & 0xFFFF
+    112              delay_10us();
+    113              delay_10us();
+    114          
+    115              value <<= 1;
+   \                     ??CrossCallReturnLabel_0:
+   \   000031   EE           MOV     A,R6
+   \   000032   C3           CLR     C
+   \   000033   33           RLC     A
+   \   000034   FE           MOV     R6,A
+    116              if(DHT11_DATA)
+   \   000035   A2A0         MOV     C,0xa0.0
+   \   000037   5003         JNC     ??dht11_read_byte_4
+    117              {
+    118                value |= 0x01;
+   \   000039   D2E0         SETB    0xE0 /* A   */.0
+   \   00003B   FE           MOV     R6,A
+    119              }
+    120          
+    121              if(!dht11_wait_for_level(0, 100))
+   \                     ??dht11_read_byte_4:
+   \   00003C                ; Setup parameters for call to function dht11_wait_for_level
+   \   00003C   7A64         MOV     R2,#0x64
+   \   00003E   7B00         MOV     R3,#0x0
+   \   000040   7900         MOV     R1,#0x0
+   \   000042   12....       LCALL   ??dht11_wait_for_level?relay
+   \   000045   E9           MOV     A,R1
+   \   000046   7004         JNZ     ??dht11_read_byte_5
+    122              {
+    123                DHT11_LastErr = 0x20 + index;
+   \   000048   7420         MOV     A,#0x20
+   \   00004A   80D2         SJMP    ??dht11_read_byte_2
+    124                dht11ByteError = 1;
+    125                return 0;
+    126              }
+    127            }
+   \                     ??dht11_read_byte_5:
+   \   00004C   1F           DEC     R7
+   \   00004D   EF           MOV     A,R7
+   \   00004E   70C0         JNZ     ??dht11_read_byte_0
+    128          
+    129            return value;
+   \   000050   EE           MOV     A,R6
+   \   000051   F9           MOV     R1,A
+   \                     ??dht11_read_byte_3:
+   \   000052   80..         SJMP    ?Subroutine0
+   \   000054                REQUIRE _A_P2
+    130          }
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine3:
+   \   000000   12....       LCALL   ??delay_us?relay
+   \   000003                ; Setup parameters for call to function delay_us
+   \   000003                ; Setup parameters for call to function delay_us
+   \   000003                ; Setup parameters for call to function delay_us
+   \   000003                ; Setup parameters for call to function delay_us
+   \   000003   12....       LCALL   ??delay_us?relay
+   \   000006                ; Setup parameters for call to function delay_us
+   \   000006                ; Setup parameters for call to function delay_us
+   \   000006                ; Setup parameters for call to function delay_us
+   \   000006                ; Setup parameters for call to function delay_us
+   \   000006   12....       LCALL   ??delay_us?relay
+   \   000009   22           RET
+    131          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    132          void DHT11_Init(void)
+   \                     DHT11_Init:
+    133          {
+   \   000000   C082         PUSH    DPL
+   \   000002   C083         PUSH    DPH
+   \   000004                ; Saved register size: 2
+   \   000004                ; Auto size: 0
+    134            P2SEL &= ~DHT11_PIN_MASK;
+   \   000004   53F5FE       ANL     0xf5,#0xfe
+    135            P2DIR |= DHT11_PIN_MASK;
+   \   000007   12....       LCALL   ??Subroutine4_0 & 0xFFFF
+    136            DHT11_DATA = 1;
+    137          
+    138            /* 按资料要求，上电后先给 1s 稳定时间 */
+    139            delay_ms(1000);
+   \                     ??CrossCallReturnLabel_7:
+   \   00000A                ; Setup parameters for call to function delay_ms
+   \   00000A   7AE8         MOV     R2,#-0x18
+   \   00000C   7B03         MOV     R3,#0x3
+   \   00000E   12....       LCALL   ??delay_ms?relay
+    140            dht11Ready = 1;
+   \   000011   90....       MOV     DPTR,#dht11Ready
+   \   000014   7401         MOV     A,#0x1
+   \   000016   F0           MOVX    @DPTR,A
+    141          }
+   \   000017   D083         POP     DPH
+   \   000019   D082         POP     DPL
+   \   00001B   02....       LJMP    ?BRET
+   \   00001E                REQUIRE P2SEL
+   \   00001E                REQUIRE P2DIR
+   \   00001E                REQUIRE _A_P2
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ??Subroutine4_0:
+   \   000000   43FF01       ORL     0xff,#0x1
+   \   000003   D2A0         SETB    0xa0.0
+   \   000005   22           RET
+    142          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    143          uint8 DHT11_Read(uint8 *temperature, uint8 *humidity)
+   \                     DHT11_Read:
+    144          {
+   \   000000   74F1         MOV     A,#-0xf
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 15
+   \   000005                ; Auto size: 0
+   \   000005   EA           MOV     A,R2
+   \   000006   FE           MOV     R6,A
+   \   000007   EB           MOV     A,R3
+   \   000008   FF           MOV     R7,A
+   \   000009   8C..         MOV     ?V0 + 0,R4
+   \   00000B   8D..         MOV     ?V0 + 1,R5
+    145            uint8 humidityHigh;
+    146            uint8 humidityLow;
+    147            uint8 temperatureHigh;
+    148            uint8 temperatureLow;
+    149            uint8 checkData;
+    150            uint8 sum;
+    151            halIntState_t intState;
+    152          
+    153            DHT11_LastErr = 0;
+   \   00000D   90....       MOV     DPTR,#DHT11_LastErr
+   \   000010   E4           CLR     A
+   \   000011   F0           MOVX    @DPTR,A
+    154            DHT11_LastRaw[0] = 0;
+   \   000012   90....       MOV     DPTR,#DHT11_LastRaw
+   \   000015   F0           MOVX    @DPTR,A
+    155            DHT11_LastRaw[1] = 0;
+   \   000016   A3           INC     DPTR
+   \   000017   F0           MOVX    @DPTR,A
+    156            DHT11_LastRaw[2] = 0;
+   \   000018   A3           INC     DPTR
+   \   000019   F0           MOVX    @DPTR,A
+    157            DHT11_LastRaw[3] = 0;
+   \   00001A   A3           INC     DPTR
+   \   00001B   F0           MOVX    @DPTR,A
+    158            DHT11_LastRaw[4] = 0;
+   \   00001C   A3           INC     DPTR
+   \   00001D   F0           MOVX    @DPTR,A
+    159          
+    160            if ((temperature == 0) || (humidity == 0))
+   \   00001E   EE           MOV     A,R6
+   \   00001F   4F           ORL     A,R7
+   \   000020   6005         JZ      ??DHT11_Read_0
+   \   000022   EC           MOV     A,R4
+   \   000023   45..         ORL     A,?V0 + 1
+   \   000025   700B         JNZ     ??DHT11_Read_1
+    161            {
+    162              DHT11_LastErr = 0x01;
+   \                     ??DHT11_Read_0:
+   \   000027   90....       MOV     DPTR,#DHT11_LastErr
+   \   00002A   7401         MOV     A,#0x1
+   \                     ??DHT11_Read_2:
+   \   00002C   F0           MOVX    @DPTR,A
+    163              return 0;
+   \                     ??DHT11_Read_3:
+   \   00002D   7900         MOV     R1,#0x0
+   \   00002F   02....       LJMP    ??DHT11_Read_4 & 0xFFFF
+    164            }
+    165          
+    166            if (!dht11Ready)
+   \                     ??DHT11_Read_1:
+   \   000032   90....       MOV     DPTR,#dht11Ready
+   \   000035   E0           MOVX    A,@DPTR
+   \   000036   7007         JNZ     ??DHT11_Read_5
+    167            {
+    168              DHT11_LastErr = 0x31;
+   \   000038   90....       MOV     DPTR,#DHT11_LastErr
+   \   00003B   7431         MOV     A,#0x31
+   \   00003D   80ED         SJMP    ??DHT11_Read_2
+    169              return 0;
+    170            }
+    171          
+    172            P2SEL &= ~DHT11_PIN_MASK;
+   \                     ??DHT11_Read_5:
+   \   00003F   53F5FE       ANL     0xf5,#0xfe
+    173          
+    174            HAL_ENTER_CRITICAL_SECTION(intState);
+   \   000042   A2AF         MOV     C,0xa8.7
+   \   000044   E4           CLR     A
+   \   000045   33           RLC     A
+   \   000046   F5..         MOV     ?V0 + 2,A
+   \   000048   C2AF         CLR     0xa8.7
+    175          
+    176            P2DIR |= DHT11_PIN_MASK;
+   \   00004A   43FF01       ORL     0xff,#0x1
+    177            DHT11_DATA = 0;
+   \   00004D   C2A0         CLR     0xa0.0
+    178            delay_ms(20);
+   \   00004F                ; Setup parameters for call to function delay_ms
+   \   00004F   7A14         MOV     R2,#0x14
+   \   000051   7B00         MOV     R3,#0x0
+   \   000053   12....       LCALL   ??delay_ms?relay
+    179          
+    180            DHT11_DATA = 1;
+   \   000056   D2A0         SETB    0xa0.0
+    181            P2DIR &= ~DHT11_PIN_MASK;
+   \   000058   53FFFE       ANL     0xff,#0xfe
+    182          
+    183            delay_10us();
+   \   00005B                ; Setup parameters for call to function delay_us
+   \   00005B   12....       LCALL   ?Subroutine1 & 0xFFFF
+    184            delay_10us();
+    185            delay_10us();
+    186          
+    187            if(!dht11_wait_for_level(0, 20))
+   \                     ??CrossCallReturnLabel_1:
+   \   00005E                ; Setup parameters for call to function dht11_wait_for_level
+   \   00005E   7A14         MOV     R2,#0x14
+   \   000060   7B00         MOV     R3,#0x0
+   \   000062   7900         MOV     R1,#0x0
+   \   000064   12....       LCALL   ??dht11_wait_for_level?relay
+   \   000067   E9           MOV     A,R1
+   \   000068   700B         JNZ     ??DHT11_Read_6
+    188            {
+    189              DHT11_LastErr = 0x02;
+   \   00006A   90....       MOV     DPTR,#DHT11_LastErr
+   \   00006D   7402         MOV     A,#0x2
+   \                     ??DHT11_Read_7:
+   \   00006F   F0           MOVX    @DPTR,A
+    190              HAL_EXIT_CRITICAL_SECTION(intState);
+   \                     ??DHT11_Read_8:
+   \   000070   12....       LCALL   ?Subroutine2 & 0xFFFF
+    191              P2DIR |= DHT11_PIN_MASK;
+    192              DHT11_DATA = 1;
+    193              return 0;
+   \                     ??CrossCallReturnLabel_4:
+   \   000073   80B8         SJMP    ??DHT11_Read_3
+    194            }
+    195          
+    196            if(!dht11_wait_for_level(1, 100))
+   \                     ??DHT11_Read_6:
+   \   000075                ; Setup parameters for call to function dht11_wait_for_level
+   \   000075   7A64         MOV     R2,#0x64
+   \   000077   7B00         MOV     R3,#0x0
+   \   000079   7901         MOV     R1,#0x1
+   \   00007B   12....       LCALL   ??dht11_wait_for_level?relay
+   \   00007E   E9           MOV     A,R1
+   \   00007F   7007         JNZ     ??DHT11_Read_9
+    197            {
+    198              DHT11_LastErr = 0x03;
+   \   000081   90....       MOV     DPTR,#DHT11_LastErr
+   \   000084   7403         MOV     A,#0x3
+   \   000086   80E7         SJMP    ??DHT11_Read_7
+    199              HAL_EXIT_CRITICAL_SECTION(intState);
+    200              P2DIR |= DHT11_PIN_MASK;
+    201              DHT11_DATA = 1;
+    202              return 0;
+    203            }
+    204          
+    205            if(!dht11_wait_for_level(0, 100))
+   \                     ??DHT11_Read_9:
+   \   000088                ; Setup parameters for call to function dht11_wait_for_level
+   \   000088   7A64         MOV     R2,#0x64
+   \   00008A   7B00         MOV     R3,#0x0
+   \   00008C   7900         MOV     R1,#0x0
+   \   00008E   12....       LCALL   ??dht11_wait_for_level?relay
+   \   000091   E9           MOV     A,R1
+   \   000092   7007         JNZ     ??DHT11_Read_10
+    206            {
+    207              DHT11_LastErr = 0x04;
+   \   000094   90....       MOV     DPTR,#DHT11_LastErr
+   \   000097   7404         MOV     A,#0x4
+   \   000099   80D4         SJMP    ??DHT11_Read_7
+    208              HAL_EXIT_CRITICAL_SECTION(intState);
+    209              P2DIR |= DHT11_PIN_MASK;
+    210              DHT11_DATA = 1;
+    211              return 0;
+    212            }
+    213          
+    214            humidityHigh = dht11_read_byte(0);
+   \                     ??DHT11_Read_10:
+   \   00009B                ; Setup parameters for call to function dht11_read_byte
+   \   00009B   7900         MOV     R1,#0x0
+   \   00009D   12....       LCALL   ??dht11_read_byte?relay
+   \   0000A0   E9           MOV     A,R1
+   \   0000A1   F5..         MOV     ?V0 + 3,A
+    215            if(dht11ByteError)
+   \   0000A3   90....       MOV     DPTR,#dht11ByteError
+   \   0000A6   E0           MOVX    A,@DPTR
+   \   0000A7   70C7         JNZ     ??DHT11_Read_8
+    216            {
+    217              HAL_EXIT_CRITICAL_SECTION(intState);
+    218              P2DIR |= DHT11_PIN_MASK;
+    219              DHT11_DATA = 1;
+    220              return 0;
+    221            }
+    222            DHT11_LastRaw[0] = humidityHigh;
+   \   0000A9   E9           MOV     A,R1
+   \   0000AA   90....       MOV     DPTR,#DHT11_LastRaw
+   \   0000AD   F0           MOVX    @DPTR,A
+    223          
+    224            humidityLow = dht11_read_byte(1);
+   \   0000AE                ; Setup parameters for call to function dht11_read_byte
+   \   0000AE   7901         MOV     R1,#0x1
+   \   0000B0   12....       LCALL   ??dht11_read_byte?relay
+   \   0000B3   E9           MOV     A,R1
+   \   0000B4   F5..         MOV     ?V0 + 4,A
+    225            if(dht11ByteError)
+   \   0000B6   90....       MOV     DPTR,#dht11ByteError
+   \   0000B9   E0           MOVX    A,@DPTR
+   \   0000BA   6006         JZ      ??DHT11_Read_11
+    226            {
+    227              HAL_EXIT_CRITICAL_SECTION(intState);
+   \   0000BC   12....       LCALL   ?Subroutine2 & 0xFFFF
+    228              P2DIR |= DHT11_PIN_MASK;
+    229              DHT11_DATA = 1;
+    230              return 0;
+   \                     ??CrossCallReturnLabel_5:
+   \   0000BF   02....       LJMP    ??DHT11_Read_3 & 0xFFFF
+    231            }
+    232            DHT11_LastRaw[1] = humidityLow;
+   \                     ??DHT11_Read_11:
+   \   0000C2   E9           MOV     A,R1
+   \   0000C3   90....       MOV     DPTR,#DHT11_LastRaw + 1
+   \   0000C6   F0           MOVX    @DPTR,A
+    233          
+    234            temperatureHigh = dht11_read_byte(2);
+   \   0000C7                ; Setup parameters for call to function dht11_read_byte
+   \   0000C7   7902         MOV     R1,#0x2
+   \   0000C9   12....       LCALL   ??dht11_read_byte?relay
+   \   0000CC   E9           MOV     A,R1
+   \   0000CD   F5..         MOV     ?V0 + 5,A
+    235            if(dht11ByteError)
+   \   0000CF   90....       MOV     DPTR,#dht11ByteError
+   \   0000D2   E0           MOVX    A,@DPTR
+   \   0000D3   709B         JNZ     ??DHT11_Read_8
+    236            {
+    237              HAL_EXIT_CRITICAL_SECTION(intState);
+    238              P2DIR |= DHT11_PIN_MASK;
+    239              DHT11_DATA = 1;
+    240              return 0;
+    241            }
+    242            DHT11_LastRaw[2] = temperatureHigh;
+   \   0000D5   E9           MOV     A,R1
+   \   0000D6   90....       MOV     DPTR,#DHT11_LastRaw + 2
+   \   0000D9   F0           MOVX    @DPTR,A
+    243          
+    244            temperatureLow = dht11_read_byte(3);
+   \   0000DA                ; Setup parameters for call to function dht11_read_byte
+   \   0000DA   7903         MOV     R1,#0x3
+   \   0000DC   12....       LCALL   ??dht11_read_byte?relay
+   \   0000DF   E9           MOV     A,R1
+   \   0000E0   F5..         MOV     ?V0 + 6,A
+    245            if(dht11ByteError)
+   \   0000E2   90....       MOV     DPTR,#dht11ByteError
+   \   0000E5   E0           MOVX    A,@DPTR
+   \   0000E6   7088         JNZ     ??DHT11_Read_8
+    246            {
+    247              HAL_EXIT_CRITICAL_SECTION(intState);
+    248              P2DIR |= DHT11_PIN_MASK;
+    249              DHT11_DATA = 1;
+    250              return 0;
+    251            }
+    252            DHT11_LastRaw[3] = temperatureLow;
+   \   0000E8   E9           MOV     A,R1
+   \   0000E9   90....       MOV     DPTR,#DHT11_LastRaw + 3
+   \   0000EC   F0           MOVX    @DPTR,A
+    253          
+    254            checkData = dht11_read_byte(4);
+   \   0000ED                ; Setup parameters for call to function dht11_read_byte
+   \   0000ED   7904         MOV     R1,#0x4
+   \   0000EF   12....       LCALL   ??dht11_read_byte?relay
+   \   0000F2   E9           MOV     A,R1
+   \   0000F3   F8           MOV     R0,A
+    255            if(dht11ByteError)
+   \   0000F4   90....       MOV     DPTR,#dht11ByteError
+   \   0000F7   E0           MOVX    A,@DPTR
+   \   0000F8   6003         JZ      $+5
+   \   0000FA   02....       LJMP    ??DHT11_Read_8 & 0xFFFF
+    256            {
+    257              HAL_EXIT_CRITICAL_SECTION(intState);
+    258              P2DIR |= DHT11_PIN_MASK;
+    259              DHT11_DATA = 1;
+    260              return 0;
+    261            }
+    262            DHT11_LastRaw[4] = checkData;
+   \   0000FD   E8           MOV     A,R0
+   \   0000FE   90....       MOV     DPTR,#DHT11_LastRaw + 4
+   \   000101   F0           MOVX    @DPTR,A
+    263          
+    264            HAL_EXIT_CRITICAL_SECTION(intState);
+   \   000102   12....       LCALL   ?Subroutine2 & 0xFFFF
+    265          
+    266            P2DIR |= DHT11_PIN_MASK;
+    267            DHT11_DATA = 1;
+    268          
+    269            sum = humidityHigh + humidityLow + temperatureHigh + temperatureLow;
+    270            if(sum != checkData)
+   \                     ??CrossCallReturnLabel_6:
+   \   000105   E5..         MOV     A,?V0 + 3
+   \   000107   25..         ADD     A,?V0 + 4
+   \   000109   25..         ADD     A,?V0 + 5
+   \   00010B   25..         ADD     A,?V0 + 6
+   \   00010D   68           XRL     A,R0
+   \   00010E   6008         JZ      ??DHT11_Read_12
+    271            {
+    272              DHT11_LastErr = 0x30;
+   \   000110   90....       MOV     DPTR,#DHT11_LastErr
+   \   000113   7430         MOV     A,#0x30
+   \   000115   F0           MOVX    @DPTR,A
+    273              return 0;
+   \   000116   80A7         SJMP    ??CrossCallReturnLabel_5
+    274            }
+    275          
+    276            *humidity = humidityHigh;
+   \                     ??DHT11_Read_12:
+   \   000118   85..82       MOV     DPL,?V0 + 0
+   \   00011B   85..83       MOV     DPH,?V0 + 1
+   \   00011E   E5..         MOV     A,?V0 + 3
+   \   000120   F0           MOVX    @DPTR,A
+    277            *temperature = temperatureHigh;
+   \   000121   8E82         MOV     DPL,R6
+   \   000123   8F83         MOV     DPH,R7
+   \   000125   E5..         MOV     A,?V0 + 5
+   \   000127   F0           MOVX    @DPTR,A
+    278            return 1;
+   \   000128   7901         MOV     R1,#0x1
+   \                     ??DHT11_Read_4:
+   \   00012A   7F07         MOV     R7,#0x7
+   \   00012C   02....       LJMP    ?BANKED_LEAVE_XDATA
+   \   00012F                REQUIRE P2SEL
+   \   00012F                REQUIRE _A_IEN0
+   \   00012F                REQUIRE P2DIR
+   \   00012F                REQUIRE _A_P2
+    279          }
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine2:
+   \   000000   E5..         MOV     A,?V0 + 2
+   \   000002   A2E0         MOV     C,0xE0 /* A   */.0
+   \   000004   92AF         MOV     0xa8.7,C
+   \   000006                REQUIRE ??Subroutine4_0
+   \   000006                ; // Fall through to label ??Subroutine4_0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine1:
+   \   000000   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \                     ??CrossCallReturnLabel_2:
+   \   000003                ; Setup parameters for call to function delay_us
+   \   000003                ; Setup parameters for call to function delay_us
+   \   000003   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \                     ??CrossCallReturnLabel_3:
+   \   000006   22           RET
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??delay_us?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    delay_us
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??delay_ms?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    delay_ms
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??dht11_wait_for_level?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    dht11_wait_for_level
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??dht11_read_byte?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    dht11_read_byte
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??DHT11_Init?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    DHT11_Init
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??DHT11_Read?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    DHT11_Read
+
+   Maximum stack usage in bytes:
+
+     Function                  ISTACK PSTACK XSTACK
+     --------                  ------ ------ ------
+     DHT11_Init                    2      0      0
+       -> delay_ms                 4      0      0
+     DHT11_Read                    1      0     15
+       -> delay_ms                 0      0     30
+       -> delay_us                 0      0     30
+       -> delay_us                 0      0     30
+       -> delay_us                 0      0     30
+       -> delay_us                 0      0     30
+       -> delay_us                 0      0     30
+       -> delay_us                 0      0     30
+       -> dht11_wait_for_level     0      0     30
+       -> dht11_wait_for_level     0      0     30
+       -> dht11_wait_for_level     0      0     30
+       -> dht11_read_byte          0      0     30
+       -> dht11_read_byte          0      0     30
+       -> dht11_read_byte          0      0     30
+       -> dht11_read_byte          0      0     30
+       -> dht11_read_byte          0      0     30
+     delay_ms                      0      0     26
+       -> delay_us                 0      0     22
+       -> delay_us                 0      0     22
+     delay_us                      0      0     15
+     dht11_read_byte               0      0     24
+       -> dht11_wait_for_level     0      0     18
+       -> delay_us                 0      0     18
+       -> delay_us                 0      0     18
+       -> delay_us                 0      0     18
+       -> delay_us                 0      0     18
+       -> delay_us                 0      0     18
+       -> delay_us                 0      0     18
+       -> dht11_wait_for_level     0      0     18
+     dht11_wait_for_level          0      0     24
+       -> delay_us                 0      0     18
+
+
+   Segment part sizes:
+
+     Function/Label               Bytes
+     --------------               -----
+     _A_P2                           1
+     _A_IEN0                         1
+     P2SEL                           1
+     P2DIR                           1
+     DHT11_LastErr                   1
+     DHT11_LastRaw                   5
+     dht11ByteError                  1
+     dht11Ready                      1
+     delay_us                       43
+     delay_ms                       58
+     dht11_wait_for_level           41
+     ?Subroutine0                    5
+     dht11_read_byte                84
+     ?Subroutine3                   10
+     DHT11_Init                     30
+     ??Subroutine4_0                 6
+     DHT11_Read                    303
+     ?Subroutine2                    6
+     ?Subroutine1                    7
+     ??delay_us?relay                6
+     ??delay_ms?relay                6
+     ??dht11_wait_for_level?relay    6
+     ??dht11_read_byte?relay         6
+     ??DHT11_Init?relay              6
+     ??DHT11_Read?relay              6
+
+ 
+ 593 bytes in segment BANKED_CODE
+  36 bytes in segment BANK_RELAYS
+   4 bytes in segment SFR_AN
+   8 bytes in segment XDATA_Z
+ 
+ 629 bytes of CODE  memory
+   0 bytes of DATA  memory (+ 4 bytes shared)
+   8 bytes of XDATA memory
+
+Errors: none
+Warnings: 1
